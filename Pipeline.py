@@ -268,8 +268,7 @@ class Pipeline():
         right_fpoint = right_fit[0]*y_eval**2 + right_fit[1]*y_eval + right_fit[2]
         #calculate car pose
         lane_center = (right_fpoint + left_fpoint) / 2 * xm_per_pix
-        pose = lane_center - car_pos
-            
+        pose = lane_center - car_pos            
         return pose
 
     def proccess(self,image):
@@ -330,8 +329,8 @@ class Pipeline():
             pose_text = f"car is {round(abs(car_pose), 2)} meters right from center"
         # print test to image   
         font = cv2.FONT_HERSHEY_PLAIN
-        cv2.putText(undist, curv_text, (10,100), font, 1, (255,255,255), 2)
-        cv2.putText(undist, pose_text, (10,150), font, 1, (255,255,255), 2)
+        cv2.putText(undist, curv_text, (10,100), font, 2, (30,240,30), 3)
+        cv2.putText(undist, pose_text, (10,150), font, 2, (30,240,30), 3)
         #Draving lines
         # find best fits  for drawing
         self.left_line.find_best_fit()

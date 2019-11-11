@@ -71,10 +71,11 @@ for img in images:
         pose_text = f"car is {round(abs(car_pose), 2)} meters left from center"
     else:
         pose_text = f"car is {round(abs(car_pose), 2)} meters right from center"
-    # print test to image   
     font = cv2.FONT_HERSHEY_PLAIN
-    cv2.putText(undist, curv_text, (10,100), font, 1, (255,255,255), 2)
-    cv2.putText(undist, pose_text, (10,150), font, 1, (255,255,255), 2)
+    
+    cv2.putText(undist, curv_text, (10,100), font, 2, (30,240,30), 3)
+    cv2.putText(undist, pose_text, (10,150), font, 2, (30,240,30), 3)
+        
     #Draving lines
     # find best fits  for drawing
     left_line.find_best_fit()
@@ -85,8 +86,8 @@ for img in images:
     unwarp = pipeline.unwrap(color_wrap)
     # Combine the result with the original image
     result = cv2.addWeighted(undist, 1, unwarp, 0.3, 0) 
-    output_imgs.append(result.copy())
     show_img(result)
+    output_imgs.append(result.copy())
 loader.save_imgs(output_imgs)
 
 
@@ -96,8 +97,9 @@ def process_image(image):
     return result
 videos_in = loader.get_input_videos()
 videos_out = loader.get_output_videos()
+
 for n in range(len(videos_in)):
-    output = 'project_output.mp4'
-    clip1 = VideoFileClip("project_video.mp4")
+    clip1 = VideoFileClip(videos_in[n])
     white_clip = clip1.fl_image(process_image) #NOTE: this function expects color images!!
-    white_clip.write_videofile(output, audio=False)
+    white_clip.write_videofile(videos_out[n], audio=False)
+print("finish proccess")

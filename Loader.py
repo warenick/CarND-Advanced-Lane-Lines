@@ -8,22 +8,23 @@ class Loader():
         self.input_video_folder = input_video_folder
         self.output_video_folder = output_video_folder
         self.list_files_imgs = []
-        self.list_files_videos = []
+        self.list_files_input_videos = []
+        self.list_files_output_videos = []
 
     def get_input_videos(self, folder = None):
         if folder is None:
             folder = self.input_video_folder
-        self.list_files_vids = os.listdir(folder)
-        for n in range(len(self.list_files_vids)):
-            self.list_files_vids[n]=folder+self.list_files_vids[n]
-        return self.list_files_vids 
+        list_files_vids = os.listdir(folder)
+        for file in list_files_vids:
+            self.list_files_input_videos.append(folder+file)
+        return self.list_files_input_videos 
 
     def get_output_videos(self, folder = None):
         if folder is None:
             folder = self.output_video_folder
-        for n in range(len(self.list_files_vids)):
-            self.list_files_vids[n] = self.list_files_vids[n].replace(self.input_video_folder,folder)
-        return self.list_files_vids 
+        for file in self.list_files_input_videos:
+            self.list_files_output_videos.append(file.replace(self.input_video_folder,folder))
+        return self.list_files_output_videos 
 
     def read_imgs(self, folder = None):
         if folder is None:
@@ -40,6 +41,9 @@ class Loader():
         for file in list_files:
             images.append(mpimg.imread(folder+file))
         return images
+
+    def save_img(self, image, filename):
+        mpimg.imsave(filename, image)
 
     def save_imgs(self, images, list_files = None, folder = None):
         if list_files is None:
